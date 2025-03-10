@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Data", "SGH.Data\SGH.Data.csproj", "{208BB2F3-CA33-4921-AF3A-367FEB3FAA1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Application", "SGH.Application\SGH.Application.csproj", "{992DE693-D611-4152-BFDB-BFEE48C47FFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.WebApi", "SGH.WebApi\SGH.WebApi.csproj", "{810C3905-A3A4-43E8-976D-F414712B7F7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{208BB2F3-CA33-4921-AF3A-367FEB3FAA1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{208BB2F3-CA33-4921-AF3A-367FEB3FAA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{208BB2F3-CA33-4921-AF3A-367FEB3FAA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{208BB2F3-CA33-4921-AF3A-367FEB3FAA1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{992DE693-D611-4152-BFDB-BFEE48C47FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{992DE693-D611-4152-BFDB-BFEE48C47FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{992DE693-D611-4152-BFDB-BFEE48C47FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{992DE693-D611-4152-BFDB-BFEE48C47FFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{810C3905-A3A4-43E8-976D-F414712B7F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{810C3905-A3A4-43E8-976D-F414712B7F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{810C3905-A3A4-43E8-976D-F414712B7F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{810C3905-A3A4-43E8-976D-F414712B7F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

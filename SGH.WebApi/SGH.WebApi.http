@@ -1,0 +1,6 @@
+@SGH.WebApi_HostAddress = http://localhost:5049
+
+GET {{SGH.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
