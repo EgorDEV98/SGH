@@ -10,4 +10,15 @@
       <ProjectReference Include="..\SGH.Data\SGH.Data.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AppResponseExtension" Version="1.0.2" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13" />
+      <PackageReference Include="Riok.Mapperly" Version="4.1.1" />
+      <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="9.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Mappers\" />
+    </ItemGroup>
+
 </Project>
