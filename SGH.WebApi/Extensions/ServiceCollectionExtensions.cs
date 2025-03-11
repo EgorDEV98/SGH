@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using SGH.Application.Common;
 using SGH.Application.Interfaces;
+using SGH.Application.Mappers;
 using SGH.Application.Models.JWT;
 using SGH.Application.Services;
 using SGH.WebApi.Mappers;
@@ -21,6 +22,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddMappers(this IServiceCollection services)
     {
         services.AddSingleton<AuthMapper>();
+        services.AddSingleton<DeviceMapper>();
         
         return services;
     }
@@ -28,6 +30,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IDeviceService, DeviceService>();
         
         return services;
     }
