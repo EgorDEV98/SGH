@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IJwtProvider, JwtProvider>();
+        services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
         return services;
     }
@@ -23,13 +24,14 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<AuthMapper>();
         services.AddSingleton<DeviceMapper>();
+        services.AddSingleton<UserMapper>();
         
         return services;
     }
     
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUsersService, UsersService>();
         services.AddScoped<IDeviceService, DeviceService>();
         
         return services;

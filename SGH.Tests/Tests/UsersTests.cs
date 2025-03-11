@@ -4,6 +4,7 @@ using FluentAssertions.Execution;
 using Microsoft.EntityFrameworkCore;
 using SGH.Application.Common;
 using SGH.Application.Interfaces;
+using SGH.Application.Mappers;
 using SGH.Application.Models.Params;
 using SGH.Application.Services;
 using SGH.Data.Entities;
@@ -11,23 +12,48 @@ using SGH.Tests.DbMock;
 
 namespace SGH.Tests.Tests;
 
-public class AuthTests
+public class UsersTests
 {
     private readonly PostgresDbContextMock _context;
-    private readonly AuthService _authService;
+    private readonly UsersService _usersService;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IJwtProvider _jwtProvider;
+    private readonly IPasswordHasher _passwordHasher;
     
-    public AuthTests()
+    public UsersTests()
     {
         _context = PostgresMock.Create();
         _dateTimeProvider = new DateTimeProvider();
         _jwtProvider = new JwtProvider(_dateTimeProvider);
-        _authService = new AuthService(_context, _dateTimeProvider, _jwtProvider);
+        _passwordHasher = new PasswordHasher();
+        _usersService = new UsersService(_context, _dateTimeProvider, _jwtProvider, new UserMapper(), _passwordHasher);
 
        Seed();
     }
 
+    #region PasswordHasher
+
+    [Fact]
+    public void PasswordHasher_Success()
+    {
+        var hash = _passwordHasher.HashPassword("TEST");
+        using (new AssertionScope())
+        {
+            hash.Should().NotBeNullOrEmpty();
+        }
+    }
+    
+    [Fact]
+    public void PasswordHasher_ThrowsArgumentEmptyException()
+        => Assert.Throws<ArgumentNullException>(() => _passwordHasher.HashPassword(""));
+    
+    [Fact]
+    public void PasswordHasher_ThrowsArgumentNullException()
+        => Assert.Throws<ArgumentNullException>(() => _passwordHasher.HashPassword(null));
+    
+
+    #endregion
+    
     #region JwtProvider
 
     [Fact]
@@ -56,7 +82,7 @@ public class AuthTests
     [Fact]
     public async Task Login_Success()
     {
-        var result = await _authService.Login(new AuthParams()
+        var result = await _usersService.Login(new AuthParams()
         {
             Login = "TEST_LOGIN",
             Password = "TEST_PASSWORD"
@@ -74,7 +100,7 @@ public class AuthTests
     {
         await Assert.ThrowsAsync<UnauthorizedException>(async () =>
         {
-            await _authService.Login(new AuthParams()
+            await _usersService.Login(new AuthParams()
             {
                 Login = "TEST_INCORRECT_LOGIN",
                 Password = "TEST_PASSWORD"
@@ -87,7 +113,7 @@ public class AuthTests
     {
         await Assert.ThrowsAsync<UnauthorizedException>(async () =>
         {
-            await _authService.Login(new AuthParams()
+            await _usersService.Login(new AuthParams()
             {
                 Login = "TEST_NOT_FOUND_LOGIN",
                 Password = "TEST_NOT_FOUND_PASSWORD"
@@ -100,7 +126,7 @@ public class AuthTests
     {
         await Assert.ThrowsAsync<UnauthorizedException>(async () =>
         {
-            await _authService.Login(new AuthParams()
+            await _usersService.Login(new AuthParams()
             {
                 Login = "TEST_LOGIN",
                 Password = "TEST_INCORRECT_PASSWORD"
@@ -115,7 +141,7 @@ public class AuthTests
     [Fact]
     public async Task Registration_Success()
     {
-        var result = await _authService.Registration(new RegistrationParams
+        var result = await _usersService.Registration(new RegistrationParams
         {
             Login = "NEW_TEST_LOGIN",
             Password = "NEW_TEST_PASSWORD",
@@ -134,7 +160,7 @@ public class AuthTests
     {
         await Assert.ThrowsAsync<ConflictException>(async () =>
         {
-            await _authService.Registration(new RegistrationParams
+            await _usersService.Registration(new RegistrationParams
             {
                 Login = "TEST_LOGIN",
                 Password = "NEW_TEST_PASSWORD",
@@ -144,6 +170,53 @@ public class AuthTests
     }
 
     #endregion
+
+    #region UpdateuUserInfo
+
+    [Fact]
+    public async Task UpdateUserInfo_Success()
+    {
+        // Получаем старый профиль
+        var oldUserName = (await _context.Users.FirstOrDefaultAsync(x => x.Id == new Guid("E54C536B-4C75-4B0C-8927-8D866C86C4A6")))!.Name;
+        using (new AssertionScope())
+        {
+            oldUserName.Should().Be("TEST_USER");
+        }
+        
+        // Изменяем
+        var newPassword = "NEW_TEST_PASSWORD";
+        var result = await _usersService.UpdateUser(new UpdateUserParams
+        {
+            UserId = new Guid("E54C536B-4C75-4B0C-8927-8D866C86C4A6"),
+            Name = "NEW_USER_NAME",
+            Password = newPassword
+        }, default);
+        
+        using (new AssertionScope())
+        {
+            var isValidPassword = _passwordHasher.VerifyPassword(newPassword, result.Password);
+            
+            result.Name.Should().Be("NEW_USER_NAME");
+            result.Password.Length.Should().BeGreaterThan(0);
+            isValidPassword.Should().BeTrue();
+        }
+    }
+
+    [Fact]
+    public async Task UpdateUserInfo_NotFoundUser()
+    {
+        await Assert.ThrowsAsync<NotFoundException>(async () =>
+        {
+            await _usersService.UpdateUser(new UpdateUserParams
+            {
+                UserId = Guid.NewGuid(),
+                Name = "NEW_USER_NAME",
+            }, default);
+        });
+    }
+    
+    
+    #endregion
     
     private void Seed()
     {
@@ -151,7 +224,7 @@ public class AuthTests
         _context.Users.Add(new User()
         {
             Id = new Guid("E54C536B-4C75-4B0C-8927-8D866C86C4A6"),
-            Password = PasswordHasher.HashPassword("TEST_PASSWORD"),
+            Password = _passwordHasher.HashPassword("TEST_PASSWORD"),
             Login = "TEST_LOGIN",
             Name = "TEST_USER",
             CreatedDate = dateTimeNow,

@@ -11,14 +11,14 @@ namespace SGH.WebApi.Controllers;
 /// </summary>
 [ApiController]
 [Route("[controller]")]
-public class AuthsController : ControllerBase, IAuthController
+public class UsersController : ControllerBase, IUserController
 {
-    private readonly IAuthService _authService;
+    private readonly IUsersService _usersService;
     private readonly AuthMapper _mapper;
 
-    public AuthsController(IAuthService authService, AuthMapper mapper)
+    public UsersController(IUsersService usersService, AuthMapper mapper)
     {
-        _authService = authService;
+        _usersService = usersService;
         _mapper = mapper;
     }
 
@@ -30,7 +30,7 @@ public class AuthsController : ControllerBase, IAuthController
     /// <returns></returns>
     [HttpPost("login")]
     public async Task<AuthResponse> Login([FromBody] AuthRequest request, CancellationToken ct)
-        => await _authService.Login(_mapper.Map(request), ct);
+        => await _usersService.Login(_mapper.Map(request), ct);
 
     /// <summary>
     /// Регистрация пользователя
@@ -41,5 +41,5 @@ public class AuthsController : ControllerBase, IAuthController
     /// <exception cref="NotImplementedException"></exception>
     [HttpPost("registration")]
     public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest request, CancellationToken ct)
-        => await _authService.Registration(_mapper.Map(request), ct);
+        => await _usersService.Registration(_mapper.Map(request), ct);
 }

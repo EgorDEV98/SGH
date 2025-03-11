@@ -1,24 +1,30 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Identity;
+using SGH.Application.Interfaces;
 
 namespace SGH.Application.Common;
 
-public static class PasswordHasher
+public class PasswordHasher : IPasswordHasher
 {
-    private const int SaltSize = 16; // Размер соли в байтах
-    private const int KeySize = 32;  // Размер хэша в байтах
-    private const int Iterations = 100000; // Количество итераций
+    private const int SaltSize = 16;
+    private const int KeySize = 32;
+    private const int Iterations = 100000;
 
-    public static string HashPassword(string password)
+    public string HashPassword(string password)
     {
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            throw new ArgumentNullException("Argument exception Password hasher cannot be null or empty.");
+        }
         byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
         byte[] hash = KeyDerivation.Pbkdf2(password, salt, KeyDerivationPrf.HMACSHA256, Iterations, KeySize);
         
         return Convert.ToBase64String(Combine(salt, hash));
     }
 
-    public static bool VerifyPassword(string password, string hashedPassword)
+    public bool VerifyPassword(string password, string hashedPassword)
     {
         byte[] hashBytes = Convert.FromBase64String(hashedPassword);
         byte[] salt = new byte[SaltSize];
