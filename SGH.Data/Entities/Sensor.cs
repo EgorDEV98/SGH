@@ -25,7 +25,7 @@ public class Sensor : IEntityDate, ISoftDeleteEntity
     /// <summary>
     /// Показания датчика
     /// </summary>
-    public ICollection<SensorValue> Values { get; set; }
+    public ICollection<SensorValue>? Values { get; set; }
     
     /// <summary>
     /// Навигационное поле

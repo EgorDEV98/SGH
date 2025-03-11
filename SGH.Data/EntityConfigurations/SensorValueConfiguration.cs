@@ -11,8 +11,6 @@ public class SensorValueConfiguration : IEntityTypeConfiguration<SensorValue>
 {
     public void Configure(EntityTypeBuilder<SensorValue> builder)
     {
-        var dateTimeNow = DateTime.Now;
-        
         builder.ToTable("SensorValues");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Value).IsRequired();

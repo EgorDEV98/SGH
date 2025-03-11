@@ -13,16 +13,18 @@ public class GetDeviceResponse
     /// Имя устройства
     /// </summary>
     public string Name { get; set; }
-    
+
     /// <summary>
     /// Датчики устройства
     /// </summary>
     public IReadOnlyCollection<GetSensorResponse> Sensors { get; set; }
+        = new List<GetSensorResponse>();
     
     /// <summary>
     /// Актуаторы
     /// </summary>
     public IReadOnlyCollection<GetActuatorResponse> Actuators { get; set; }
+        = new List<GetActuatorResponse>();
     
     /// <summary>
     /// Дата добавления устройства

@@ -20,17 +20,17 @@ public class Device : IEntityDate, ISoftDeleteEntity
     /// <summary>
     /// Датчики устройства
     /// </summary>
-    public ICollection<Sensor> Sensors { get; set; }
+    public ICollection<Sensor>? Sensors { get; set; }
     
     /// <summary>
     /// Актуаторы
     /// </summary>
-    public ICollection<Actuator> Actuators { get; set; }
+    public ICollection<Actuator>? Actuators { get; set; }
     
     /// <summary>
     /// События устройства
     /// </summary>
-    public ICollection<Event> Events { get; set; }
+    public ICollection<Event>? Events { get; set; }
     
     /// <summary>
     /// Навигационное поле

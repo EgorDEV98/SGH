@@ -64,12 +64,19 @@ public class DeviceService : IDeviceService
     /// <returns></returns>
     public async Task<GetDeviceResponse> AddDevice(AddDeviceParams param, CancellationToken ct)
     {
+        var user = await _postgresDbContext.Users.FirstOrDefaultAsync(x => x.Id == param.UserId, ct);
+        if (user is null)
+        {
+            NotFoundException.Throw($"User Id({param.UserId}) is not found");
+        }
+
+        var currentDateTime = _dateTimeProvider.GetCurrent();
         var newDevice = new Device()
         {
             UserId = param.UserId,
             Name = param.Name ?? "Новое устройство",
-            CreatedDate = _dateTimeProvider.GetCurrent(),
-            LastUpdated = _dateTimeProvider.GetCurrent(),
+            CreatedDate = currentDateTime,
+            LastUpdated = currentDateTime,
         };
         
         await _postgresDbContext.Devices.AddAsync(newDevice, ct);
@@ -100,6 +107,8 @@ public class DeviceService : IDeviceService
             entity!.Name = param.Name;
             entity!.LastUpdated = _dateTimeProvider.GetCurrent();
         }
+
+        await _postgresDbContext.SaveChangesAsync(ct);
         
         return _mapper.Map(entity!);
     }

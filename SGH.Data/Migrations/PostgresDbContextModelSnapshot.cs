@@ -61,7 +61,7 @@ namespace SGH.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 10, 15, 45, 30, 984, DateTimeKind.Local).AddTicks(4321));
+                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 77, DateTimeKind.Local).AddTicks(8601));
 
                     b.Property<DateTime>("DeleteDate")
                         .HasColumnType("timestamp with time zone");
@@ -74,7 +74,7 @@ namespace SGH.Data.Migrations
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 10, 15, 45, 30, 984, DateTimeKind.Local).AddTicks(4321));
+                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 77, DateTimeKind.Local).AddTicks(8601));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -129,7 +129,7 @@ namespace SGH.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 10, 15, 45, 30, 987, DateTimeKind.Local).AddTicks(3054));
+                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 80, DateTimeKind.Local).AddTicks(5917));
 
                     b.Property<DateTime>("DeleteDate")
                         .HasColumnType("timestamp with time zone");
@@ -145,7 +145,7 @@ namespace SGH.Data.Migrations
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 10, 15, 45, 30, 987, DateTimeKind.Local).AddTicks(3054));
+                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 80, DateTimeKind.Local).AddTicks(5917));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -193,12 +193,12 @@ namespace SGH.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 10, 15, 45, 30, 977, DateTimeKind.Local).AddTicks(8288));
+                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 71, DateTimeKind.Local).AddTicks(6357));
 
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 10, 15, 45, 30, 977, DateTimeKind.Local).AddTicks(8288));
+                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 71, DateTimeKind.Local).AddTicks(6357));
 
                     b.Property<string>("Login")
                         .IsRequired()

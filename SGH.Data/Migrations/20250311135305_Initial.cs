@@ -19,8 +19,8 @@ namespace SGH.Data.Migrations
                     Name = table.Column<string>(type: "text", nullable: false, defaultValue: "Пользователь"),
                     Login = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 10, 15, 45, 30, 977, DateTimeKind.Local).AddTicks(8288)),
-                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 10, 15, 45, 30, 977, DateTimeKind.Local).AddTicks(8288))
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 11, 16, 53, 5, 71, DateTimeKind.Local).AddTicks(6357)),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 11, 16, 53, 5, 71, DateTimeKind.Local).AddTicks(6357))
                 },
                 constraints: table =>
                 {
@@ -34,8 +34,8 @@ namespace SGH.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false, defaultValue: "Новое устройство"),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 10, 15, 45, 30, 984, DateTimeKind.Local).AddTicks(4321)),
-                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 10, 15, 45, 30, 984, DateTimeKind.Local).AddTicks(4321)),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 11, 16, 53, 5, 77, DateTimeKind.Local).AddTicks(8601)),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 11, 16, 53, 5, 77, DateTimeKind.Local).AddTicks(8601)),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -101,8 +101,8 @@ namespace SGH.Data.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     SystemName = table.Column<string>(type: "text", nullable: false),
                     DeviceId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 10, 15, 45, 30, 987, DateTimeKind.Local).AddTicks(3054)),
-                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 10, 15, 45, 30, 987, DateTimeKind.Local).AddTicks(3054)),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 11, 16, 53, 5, 80, DateTimeKind.Local).AddTicks(5917)),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2025, 3, 11, 16, 53, 5, 80, DateTimeKind.Local).AddTicks(5917)),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
