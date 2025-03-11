@@ -1,11 +1,7 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using AppResponseExtension.Exceptions;
+﻿using AppResponseExtension.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using SGH.Application.Common;
 using SGH.Application.Interfaces;
-using SGH.Application.Models.JWT;
 using SGH.Application.Models.Params;
 using SGH.Application.Models.Responces;
 using SGH.Data;
@@ -17,11 +13,13 @@ public class AuthService : IAuthService
 {
     private readonly PostgresDbContext _context;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IJwtProvider _jwtProvider;
 
-    public AuthService(PostgresDbContext context, IDateTimeProvider dateTimeProvider)
+    public AuthService(PostgresDbContext context, IDateTimeProvider dateTimeProvider, IJwtProvider jwtProvider)
     {
         _context = context;
         _dateTimeProvider = dateTimeProvider;
+        _jwtProvider = jwtProvider;
     }
     
     /// <summary>
@@ -32,19 +30,22 @@ public class AuthService : IAuthService
     /// <returns></returns>
     public async Task<AuthResponse> Login(AuthParams param, CancellationToken ct)
     {
-        var password = DataEncryptor.Encrypt(param.Password);
         var user = await _context.Users
-            .Where(x => x.Password == password)
             .Where(x => x.Login == param.Login)
             .FirstOrDefaultAsync(ct);
         if (user is null)
         {
-            NotFoundException.Throw("Invalid login or password");
+            UnauthorizedException.Throw("Invalid login or password");
+        }
+
+        if (!PasswordHasher.VerifyPassword(param.Password, user!.Password))
+        {
+            UnauthorizedException.Throw("Invalid login or password");
         }
 
         return new AuthResponse()
         {
-            Token = CreateJwt(user!)
+            Token = _jwtProvider.GenerateJwtToken(user)
         };
     }
 
@@ -56,8 +57,6 @@ public class AuthService : IAuthService
     /// <returns></returns>
     public async Task<RegistrationResponse> Registration(RegistrationParams param, CancellationToken ct)
     {
-        var password = DataEncryptor.Encrypt(param.Password);
-
         var loginIsExist = await _context.Users.AnyAsync(x => x.Login == param.Login, ct);
         if (loginIsExist)
         {
@@ -65,6 +64,8 @@ public class AuthService : IAuthService
         }
 
         var dateTimeNow = _dateTimeProvider.GetCurrent();
+        var password = PasswordHasher.HashPassword(param.Password);
+        
         var newUser = new User()
         {
             Login = param.Login,
@@ -78,25 +79,7 @@ public class AuthService : IAuthService
 
         return new RegistrationResponse()
         {
-            Token = CreateJwt(newUser)
+            Token = _jwtProvider.GenerateJwtToken(newUser)
         };
-    }
-
-    private string CreateJwt(User user)
-    {
-        var nowDate = _dateTimeProvider.GetCurrent();
-        
-        var jwt = new JwtSecurityToken(
-            issuer: AuthOptions.ISSUER,
-            audience: AuthOptions.AUDIENCE,
-            notBefore: nowDate,
-            claims: new List<Claim>()
-            {
-                new Claim(nameof(User.Id), user.Id.ToString()),
-                new Claim(nameof(User.Name), user.Name)
-            },
-            expires: nowDate.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-            signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-        return new JwtSecurityTokenHandler().WriteToken(jwt);
     }
 }
