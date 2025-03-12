@@ -52,10 +52,15 @@ public class SensorsService : ISensorsService
     /// <returns></returns>
     public async Task<IReadOnlyCollection<GetSensorResponse>> GetSensors(GetSensorsParams param, CancellationToken ct)
     {
-        var entities = await _context.Sensors
-            .Where(x => x.DeviceId == param.DeviceId)
-            .ToArrayAsync(ct);
-        return _mapper.Map(entities);
+        var device = await _context.Devices
+            .Include(x => x.Sensors)
+            .FirstOrDefaultAsync(x => x.Id == param.DeviceId, ct);
+        if (device is null)
+        {
+            NotFoundException.Throw($"Device Id({param.DeviceId}) was not found");
+        }
+
+        return _mapper.Map(device!.Sensors ?? []);
     }
 
     /// <summary>
@@ -145,6 +150,12 @@ public class SensorsService : ISensorsService
     /// <returns></returns>
     public async Task<IReadOnlyCollection<GetSensorValueResponse>> GetSensorValues(GetSensorValuesParams param, CancellationToken ct)
     {
+        var isExistSensor = await _context.Sensors.AnyAsync(x => x.Id == param.Id, ct);
+        if (!isExistSensor)
+        {
+            NotFoundException.Throw($"Sensor Id({param.Id}) was not found");
+        }
+        
         var entities = await _context.SensorValues
             .Where(x => x.SensorId == param.Id)
             .WhereIf(param.From.HasValue, x => x.MeasurementDate >= param.From)
