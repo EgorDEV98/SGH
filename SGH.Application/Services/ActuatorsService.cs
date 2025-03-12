@@ -69,15 +69,16 @@ public class ActuatorsService : IActuatorsService
         {
             NotFoundException.Throw($"Device Id({param.DeviceId}) was not found");
         }
-        
+
+        var currentDate = _dateTimeProvider.GetCurrent();
         var newActuator = new Actuator()
         {
             Name = param.Name,
             SystemName = param.SystemName,
             State = ActuatorState.Disabled,
             DeviceId = param.DeviceId,
-            LastUpdated = _dateTimeProvider.GetCurrent(),
-            CreatedDate = _dateTimeProvider.GetCurrent()
+            LastUpdated = currentDate,
+            CreatedDate = currentDate
         };
         
         await _context.Actuators.AddAsync(newActuator, ct);
