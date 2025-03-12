@@ -24,6 +24,12 @@ public class ActuatorConfiguration : IEntityTypeConfiguration<Actuator>
         builder.Property(x => x.SystemName).IsRequired();
         builder.Property(x => x.Name).IsRequired().HasDefaultValue("Новый актуатор");
         builder.Property(x => x.State).IsRequired().HasConversion(stateConverter);
+        builder.Property(x => x.CreatedDate).IsRequired();
+        builder.Property(x => x.LastUpdated).IsRequired();
+        builder.Property(x => x.IsDeleted).IsRequired().HasDefaultValue(false);
+        builder.Property(x => x.DeleteDate);
+        
+        builder.HasQueryFilter(x => !x.IsDeleted);
 
         builder.HasOne(x => x.Device)
             .WithMany(x => x.Actuators)

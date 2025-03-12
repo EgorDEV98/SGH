@@ -11,14 +11,13 @@ public class SensorConfiguration : IEntityTypeConfiguration<Sensor>
 {
     public void Configure(EntityTypeBuilder<Sensor> builder)
     {
-        var dateTimeNow = DateTime.Now;
         
         builder.ToTable("Sensors");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired();
         builder.Property(x => x.SystemName).IsRequired();
-        builder.Property(x => x.CreatedDate).IsRequired().HasDefaultValue(dateTimeNow);
-        builder.Property(x => x.LastUpdated).IsRequired().HasDefaultValue(dateTimeNow);
+        builder.Property(x => x.CreatedDate).IsRequired();
+        builder.Property(x => x.LastUpdated).IsRequired();
         builder.Property(x => x.DeleteDate);
         builder.Property(x => x.IsDeleted).IsRequired().HasDefaultValue(false);
 

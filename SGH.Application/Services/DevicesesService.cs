@@ -9,13 +9,13 @@ using SGH.Data.Entities;
 
 namespace SGH.Application.Services;
 
-public class DeviceService : IDeviceService
+public class DevicesesService : IDevicesService
 {
     private readonly PostgresDbContext _postgresDbContext;
     private readonly DeviceMapper _mapper;
     private readonly IDateTimeProvider _dateTimeProvider;
 
-    public DeviceService(PostgresDbContext postgresDbContext, DeviceMapper mapper, IDateTimeProvider dateTimeProvider)
+    public DevicesesService(PostgresDbContext postgresDbContext, DeviceMapper mapper, IDateTimeProvider dateTimeProvider)
     {
         _postgresDbContext = postgresDbContext;
         _mapper = mapper;

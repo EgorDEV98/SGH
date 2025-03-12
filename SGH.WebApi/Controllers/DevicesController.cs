@@ -9,13 +9,13 @@ namespace SGH.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class DevicesController : BaseAuthController, IDeviceController
+public class DevicesController : BaseAuthController, IDevicesController
 {
-    private readonly IDeviceService _deviceService;
+    private readonly IDevicesService _devicesService;
 
-    public DevicesController(IDeviceService deviceService)
+    public DevicesController(IDevicesService devicesService)
     {
-        _deviceService = deviceService;
+        _devicesService = devicesService;
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public class DevicesController : BaseAuthController, IDeviceController
     [Authorize]
     [HttpGet("{id}")]
     public async Task<GetDeviceResponse> GetDevice([FromRoute] Guid id, CancellationToken ct)
-        => await _deviceService.GetDevice(new GetDeviceParams
+        => await _devicesService.GetDevice(new GetDeviceParams
         {
             UserId = base.UserId,
             DeviceId = id
@@ -41,7 +41,7 @@ public class DevicesController : BaseAuthController, IDeviceController
     [Authorize]
     [HttpGet]
     public async Task<IReadOnlyCollection<GetDeviceResponse>> GetDevices(CancellationToken ct)
-        => await _deviceService.GetDevices(new GetDevicesParams()
+        => await _devicesService.GetDevices(new GetDevicesParams()
         {
             UserId = base.UserId,
         }, ct);
@@ -55,7 +55,7 @@ public class DevicesController : BaseAuthController, IDeviceController
     [Authorize]
     [HttpPost]
     public async Task<GetDeviceResponse> AddDevice([FromBody] AddDeviceRequest param, CancellationToken ct)
-        => await _deviceService.AddDevice(new AddDeviceParams
+        => await _devicesService.AddDevice(new AddDeviceParams
         {
             UserId = base.UserId,
             Name = param.Name,
@@ -71,7 +71,7 @@ public class DevicesController : BaseAuthController, IDeviceController
     [Authorize]
     [HttpPatch("{id}")]
     public async Task<GetDeviceResponse> UpdateDevice([FromRoute] Guid id, [FromBody] UpdateDeviceRequest param, CancellationToken ct)
-        => await _deviceService.UpdateDevice(new UpdateDeviceParams()
+        => await _devicesService.UpdateDevice(new UpdateDeviceParams()
         {
             DeviceId = id,
             UserId = UserId,
@@ -86,7 +86,7 @@ public class DevicesController : BaseAuthController, IDeviceController
     [Authorize]
     [HttpDelete("{id}")]
     public async Task DeleteDevice([FromRoute] Guid id, CancellationToken ct)
-        => await _deviceService.DeleteDevice(new DeleteDeviceParams()
+        => await _devicesService.DeleteDevice(new DeleteDeviceParams()
         {
             DeviceId = id,
             UserId = base.UserId,

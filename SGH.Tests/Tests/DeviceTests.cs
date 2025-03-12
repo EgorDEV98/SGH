@@ -18,13 +18,13 @@ public class DeviceTests
 {
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly PostgresDbContext _dbContext;
-    private readonly DeviceService _deviceService;
+    private readonly DevicesesService _devicesesService;
     
     public DeviceTests()
     {
         _dateTimeProvider = new DateTimeProvider();
         _dbContext = PostgresMock.Create();
-        _deviceService = new DeviceService(_dbContext, new DeviceMapper(), _dateTimeProvider);
+        _devicesesService = new DevicesesService(_dbContext, new DeviceMapper(), _dateTimeProvider);
 
         Seed();
     }
@@ -34,7 +34,7 @@ public class DeviceTests
     [Fact]
     public async Task GetDevice_Success()
     {
-        var result = await _deviceService.GetDevice(new GetDeviceParams
+        var result = await _devicesesService.GetDevice(new GetDeviceParams
         {
             UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D"),
             DeviceId = new Guid("9716786A-7A14-4A7D-BCD0-7F27BDCC886E"),
@@ -54,7 +54,7 @@ public class DeviceTests
     {
         await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
-            await _deviceService.GetDevice(new GetDeviceParams
+            await _devicesesService.GetDevice(new GetDeviceParams
             {
                 UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D"),
                 DeviceId = Guid.NewGuid(),
@@ -67,7 +67,7 @@ public class DeviceTests
     {
         await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
-            await _deviceService.GetDevice(new GetDeviceParams
+            await _devicesesService.GetDevice(new GetDeviceParams
             {
                 UserId = Guid.NewGuid(),
                 DeviceId = new Guid("9716786A-7A14-4A7D-BCD0-7F27BDCC886E"),
@@ -82,7 +82,7 @@ public class DeviceTests
     [Fact]
     public async Task GetDevices_Success()
     {
-        var result = await _deviceService.GetDevices(new GetDevicesParams()
+        var result = await _devicesesService.GetDevices(new GetDevicesParams()
         {
             UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D")
         }, default);
@@ -96,7 +96,7 @@ public class DeviceTests
     [Fact]
     public async Task GetDevices_NotFound()
     {
-        var result = await _deviceService.GetDevices(new GetDevicesParams()
+        var result = await _devicesesService.GetDevices(new GetDevicesParams()
         {
             UserId = Guid.NewGuid()
         }, default);
@@ -114,7 +114,7 @@ public class DeviceTests
     [Fact]
     public async Task AddDevice_ToUserSuccess()
     {
-        var result = await _deviceService.AddDevice(new AddDeviceParams
+        var result = await _devicesesService.AddDevice(new AddDeviceParams
         {
             UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D"),
             Name = "TEST_DEVICE_2",
@@ -133,7 +133,7 @@ public class DeviceTests
     [Fact]
     public async Task AddDevice_WithoutNameSuccess()
     {
-        var result = await _deviceService.AddDevice(new AddDeviceParams
+        var result = await _devicesesService.AddDevice(new AddDeviceParams
         {
             UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D"),
         }, default);
@@ -152,7 +152,7 @@ public class DeviceTests
     {
         await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
-            await _deviceService.AddDevice(new AddDeviceParams
+            await _devicesesService.AddDevice(new AddDeviceParams
             {
                 UserId = Guid.NewGuid(),
                 Name = "TEST_DEVICE_2",
@@ -178,7 +178,7 @@ public class DeviceTests
         }
         
         // Изменяем и проверяем, что имя поменялось и дата последнего обновления тоже
-        var result = await _deviceService.UpdateDevice(new UpdateDeviceParams
+        var result = await _devicesesService.UpdateDevice(new UpdateDeviceParams
         {
             UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D"),
             DeviceId = new Guid("9716786A-7A14-4A7D-BCD0-7F27BDCC886E"),
@@ -197,7 +197,7 @@ public class DeviceTests
     {
         await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
-            await _deviceService.UpdateDevice(new UpdateDeviceParams
+            await _devicesesService.UpdateDevice(new UpdateDeviceParams
             {
                 UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D"),
                 DeviceId = Guid.NewGuid(),
@@ -211,7 +211,7 @@ public class DeviceTests
     {
         await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
-            await _deviceService.UpdateDevice(new UpdateDeviceParams
+            await _devicesesService.UpdateDevice(new UpdateDeviceParams
             {
                 UserId = Guid.NewGuid(),
                 DeviceId = new Guid("9716786A-7A14-4A7D-BCD0-7F27BDCC886E"),
@@ -228,7 +228,7 @@ public class DeviceTests
     public async Task DeleteDevice_Success()
     {
         // Удаляем устройство
-        var result = await _deviceService.DeleteDevice(new DeleteDeviceParams
+        var result = await _devicesesService.DeleteDevice(new DeleteDeviceParams
         {
             UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D"),
             DeviceId = new Guid("9716786A-7A14-4A7D-BCD0-7F27BDCC886E")
@@ -237,7 +237,7 @@ public class DeviceTests
         // Проверяем что у пользователя его действительно нет
         await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
-            await _deviceService.GetDevice(new GetDeviceParams()
+            await _devicesesService.GetDevice(new GetDeviceParams()
             {
                 UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D"),
                 DeviceId = new Guid("9716786A-7A14-4A7D-BCD0-7F27BDCC886E")
@@ -265,7 +265,7 @@ public class DeviceTests
     {
         await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
-            await _deviceService.DeleteDevice(new DeleteDeviceParams
+            await _devicesesService.DeleteDevice(new DeleteDeviceParams
             {
                 UserId = new Guid("9B232608-249B-4F4A-BB9E-1E04AA2A9A8D"),
                 DeviceId = Guid.NewGuid(),
@@ -278,7 +278,7 @@ public class DeviceTests
     {
         await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
-            await _deviceService.DeleteDevice(new DeleteDeviceParams
+            await _devicesesService.DeleteDevice(new DeleteDeviceParams
             {
                 UserId = Guid.NewGuid(),
                 DeviceId = new Guid("9716786A-7A14-4A7D-BCD0-7F27BDCC886E"),

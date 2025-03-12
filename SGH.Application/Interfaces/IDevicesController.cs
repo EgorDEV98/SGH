@@ -3,7 +3,7 @@ using SGH.Application.Models.Responces;
 
 namespace SGH.Application.Interfaces;
 
-public interface IDeviceController
+public interface IDevicesController
 {
     public Task<GetDeviceResponse> GetDevice(Guid id, CancellationToken ct);
     public Task<IReadOnlyCollection<GetDeviceResponse>> GetDevices(CancellationToken ct);

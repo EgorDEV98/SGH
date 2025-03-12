@@ -35,54 +35,32 @@ public class GetDeviceResponse
     /// Дата последнего обновления
     /// </summary>
     public DateTime LastUpdated { get; set; }
+}
 
-    public class GetSensorResponse
-    {
-        /// <summary>
-        /// Идентификатор
-        /// </summary>
-        public Guid Id { get; set; }
+public class GetSensorResponse
+{
+    /// <summary>
+    /// Идентификатор
+    /// </summary>
+    public Guid Id { get; set; }
     
-        /// <summary>
-        /// Имя датчика
-        /// </summary>
-        public string Name { get; set; }
+    /// <summary>
+    /// Имя датчика
+    /// </summary>
+    public string Name { get; set; }
     
-        /// <summary>
-        /// Системное имя датчика
-        /// </summary>
-        public string SystemName { get; set; }
+    /// <summary>
+    /// Системное имя датчика
+    /// </summary>
+    public string SystemName { get; set; }
 
-        /// <summary>
-        /// Дата добавления датчика
-        /// </summary>
-        public DateTime CreatedDate { get; set; }
+    /// <summary>
+    /// Дата добавления датчика
+    /// </summary>
+    public DateTime CreatedDate { get; set; }
     
-        /// <summary>
-        /// Дата последнего обновления
-        /// </summary>
-        public DateTime LastUpdated { get; set; }
-    }
-    public class GetActuatorResponse
-    {
-        /// <summary>
-        /// Идентификатор
-        /// </summary>
-        public Guid Id { get; set; }
-    
-        /// <summary>
-        /// Имя актуатора
-        /// </summary>
-        public string Name { get; set; }
-    
-        /// <summary>
-        /// Системное имя актуатора
-        /// </summary>
-        public string SystemName { get; set; }
-    
-        /// <summary>
-        /// Текущее состояние
-        /// </summary>
-        public ActuatorState State { get; set; }
-    }
+    /// <summary>
+    /// Дата последнего обновления
+    /// </summary>
+    public DateTime LastUpdated { get; set; }
 }

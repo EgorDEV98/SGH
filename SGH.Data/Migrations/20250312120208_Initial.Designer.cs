@@ -12,7 +12,7 @@ using SGH.Data;
 namespace SGH.Data.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20250311135305_Initial")]
+    [Migration("20250312120208_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,8 +31,22 @@ namespace SGH.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DeleteDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("DeviceId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -62,9 +76,7 @@ namespace SGH.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 77, DateTimeKind.Local).AddTicks(8601));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DeleteDate")
                         .HasColumnType("timestamp with time zone");
@@ -75,9 +87,7 @@ namespace SGH.Data.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<DateTime>("LastUpdated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 77, DateTimeKind.Local).AddTicks(8601));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -130,9 +140,7 @@ namespace SGH.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 80, DateTimeKind.Local).AddTicks(5917));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DeleteDate")
                         .HasColumnType("timestamp with time zone");
@@ -146,9 +154,7 @@ namespace SGH.Data.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<DateTime>("LastUpdated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 80, DateTimeKind.Local).AddTicks(5917));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -194,14 +200,10 @@ namespace SGH.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 71, DateTimeKind.Local).AddTicks(6357));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("LastUpdated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2025, 3, 11, 16, 53, 5, 71, DateTimeKind.Local).AddTicks(6357));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Login")
                         .IsRequired()

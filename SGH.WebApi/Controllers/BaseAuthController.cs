@@ -9,6 +9,9 @@ public class BaseAuthController : ControllerBase
     public BaseAuthController()
     {
         var claim = User.Claims.First(x => x.Type == nameof(Data.Entities.User.Id)).Value;
-        UserId = Guid.Parse(claim);
+        if (Guid.TryParse(claim, out Guid userId))
+        {
+            UserId = userId;
+        }
     }
 }

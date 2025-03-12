@@ -24,14 +24,12 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
             x => EnumConverters.ToEnum<EventType>(x),
             new ConverterMappingHints(size: 50, unicode: false));
         
-        var dateTimeNow = DateTime.Now;
-        
         builder.ToTable("Events");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.EventName).IsRequired().HasConversion(eventNameConverter);
         builder.Property(x => x.EventType).IsRequired().HasConversion(eventTypeConverter);
-        builder.Property(x => x.CreatedDate).IsRequired().HasDefaultValue(dateTimeNow);
-        builder.Property(x => x.LastUpdated).IsRequired().HasDefaultValue(dateTimeNow);
+        builder.Property(x => x.CreatedDate).IsRequired();
+        builder.Property(x => x.LastUpdated).IsRequired();
 
         builder.HasOne(x => x.Device)
             .WithMany(x => x.Events)

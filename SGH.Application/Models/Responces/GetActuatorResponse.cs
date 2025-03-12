@@ -1,12 +1,11 @@
 ﻿using SGH.Data.Enums;
-using SGH.Data.Interfaces;
 
-namespace SGH.Data.Entities;
+namespace SGH.Application.Models.Responces;
 
 /// <summary>
-/// Актуаторы
+/// Модель ответа актуатора
 /// </summary>
-public class Actuator : IEntityDate, ISoftDeleteEntity
+public class GetActuatorResponse
 {
     /// <summary>
     /// Идентификатор
@@ -29,16 +28,6 @@ public class Actuator : IEntityDate, ISoftDeleteEntity
     public ActuatorState State { get; set; }
     
     /// <summary>
-    /// Навигационное поле
-    /// </summary>
-    public Device Device { get; set; }
-    
-    /// <summary>
-    /// Внешний ключ
-    /// </summary>
-    public Guid DeviceId { get; set; }
-
-    /// <summary>
     /// Дата добавления актуатора
     /// </summary>
     public DateTime CreatedDate { get; set; }
@@ -47,14 +36,4 @@ public class Actuator : IEntityDate, ISoftDeleteEntity
     /// Дата обновления актуатор
     /// </summary>
     public DateTime LastUpdated { get; set; }
-    
-    /// <summary>
-    /// Признак мягкого удаления
-    /// </summary>
-    public bool IsDeleted { get; set; }
-    
-    /// <summary>
-    /// Дата удаления
-    /// </summary>
-    public DateTime DeleteDate { get; set; }
 }
